@@ -1,11 +1,14 @@
 package org.fasttrackit.search;
 
+import org.fasttrackit.webviews.Header;
+import org.fasttrackit.webviews.ProductsGrid;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
@@ -24,8 +27,22 @@ public class SimpleSearchTest {
 
         driver.get("https://fasttrackit.org/selenium-test/");
 
-        driver.findElement(By.id("search")).sendKeys("vase" + Keys.ENTER);
+        String keyword = "vase";
 
+        Header header = PageFactory.initElements(driver,Header.class);
+
+        header.getSearchField().sendKeys("vase" + Keys.ENTER);
+
+        ProductsGrid productsGrid = PageFactory.initElements(driver,ProductsGrid.class);
+
+        System.out.println("Stored" + productsGrid.getProductNameContainers().size() + "product names from search results");
+
+        for (WebElement productName : productsGrid.getProductNameContainers()) {
+
+            assertThat("Some of the product names do not contain the searched keyword.",
+                    productName.getText(), containsString(keyword.toUpperCase()));
+
+        }
     }
 
     @Test
@@ -37,7 +54,8 @@ public class SimpleSearchTest {
         driver.get("https://fasttrackit.org/selenium-test/");
 
         String keyword = "vase";
-        driver.findElement(By.id("search")).sendKeys(keyword + Keys.ENTER);
+
+                driver.findElement(By.id("search")).sendKeys(keyword + Keys.ENTER);
 
         System.out.println("Pressed Enter in search field.");
 
@@ -46,16 +64,8 @@ public class SimpleSearchTest {
         String oldPrice = driver.findElement(By.xpath("//p[@class='old-price']//span[@class='price']")).getText();
         String specialPrice = driver.findElement(By.xpath("//p[@class='special-price']//span[@class='price']")).getText();
 
-        List<WebElement> productNames = driver.findElements(By.cssSelector(".product-name a"));
 
-        System.out.println("Stored" + productNames.size() + "product names from search results");
 
-        for (WebElement productName : productNames) {
-
-            assertThat("Some of the product names do not contain the searched keyword.",
-                    productName.getText(), containsString(keyword.toUpperCase()));
-
-        }
 
     }
 }
