@@ -1,5 +1,6 @@
 package org.fasttrackit.cart;
 
+import org.fasttrackit.TestBase;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -13,18 +14,11 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class CartTest {
+public class CartTest extends TestBase{
 
 
     @Test
     public void addProductToCart() {
-        System.setProperty("webdriver.chrome.driver",
-                "C:\\Selenium driver\\chromedriver.exe");
-
-
-        WebDriver driver = new ChromeDriver();
-
-        driver.get("https://fasttrackit.org/selenium-test/");
 
         driver.findElement(By.id("search")).sendKeys("vase" + Keys.ENTER);
 

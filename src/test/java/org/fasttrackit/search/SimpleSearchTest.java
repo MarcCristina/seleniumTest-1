@@ -1,5 +1,7 @@
 package org.fasttrackit.search;
 
+import org.fasttrackit.AppConfig;
+import org.fasttrackit.TestBase;
 import org.fasttrackit.webviews.Header;
 import org.fasttrackit.webviews.ProductsGrid;
 import org.junit.Test;
@@ -15,25 +17,19 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class SimpleSearchTest {
+public class SimpleSearchTest extends TestBase{
 
 
     @Test
     public void SimpleSearchWithOneKeyword() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Selenium driver\\chromedriver.exe");
-
-
-        WebDriver driver = new ChromeDriver();
-
-        driver.get("https://fasttrackit.org/selenium-test/");
 
         String keyword = "vase";
 
-        Header header = PageFactory.initElements(driver,Header.class);
+        Header header = PageFactory.initElements(driver, Header.class);
 
         header.getSearchField().sendKeys("vase" + Keys.ENTER);
 
-        ProductsGrid productsGrid = PageFactory.initElements(driver,ProductsGrid.class);
+        ProductsGrid productsGrid = PageFactory.initElements(driver, ProductsGrid.class);
 
         System.out.println("Stored" + productsGrid.getProductNameContainers().size() + "product names from search results");
 
@@ -47,15 +43,10 @@ public class SimpleSearchTest {
 
     @Test
     public void specialPriceDisplayAfterSimpleSearch() {
-        System.setProperty("webdriver.chrome.driver",
-                "C:\\Selenium driver\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-
-        driver.get("https://fasttrackit.org/selenium-test/");
 
         String keyword = "vase";
 
-                driver.findElement(By.id("search")).sendKeys(keyword + Keys.ENTER);
+        driver.findElement(By.id("search")).sendKeys(keyword + Keys.ENTER);
 
         System.out.println("Pressed Enter in search field.");
 
@@ -63,8 +54,6 @@ public class SimpleSearchTest {
 
         String oldPrice = driver.findElement(By.xpath("//p[@class='old-price']//span[@class='price']")).getText();
         String specialPrice = driver.findElement(By.xpath("//p[@class='special-price']//span[@class='price']")).getText();
-
-
 
 
     }
